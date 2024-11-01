@@ -306,9 +306,10 @@ def parseData(data):
 # Write the data into a file
 def writeData(combinedData, File):
     for data in combinedData:
-        d = str(data)[1:-1]
+        d = "{:<10}, {:<10}, {:<6}, {:<2}, {:<5}, {:<6}, {:<6}, {:<5}, {:<4}, {:<4}, {:<4}, {:<5}".format(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11])
         File.write(d + "\n")
         print("Data:" + d)
+        
 #-----------------------------------------------------
 # Example code
 def run():

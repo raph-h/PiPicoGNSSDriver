@@ -306,25 +306,29 @@ def parseData(data):
 # Write the data into a file
 def writeData(combinedData, File):
     for data in combinedData:
-        File.write(str(data)[1:-1] + "\n")
+        d = str(data)[1:-1]
+        File.write(d + "\n")
+        print("Data:" + d)
 #-----------------------------------------------------
 # Example code
-#i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=400000, timeout=2000)
-uart = UART(1, baudrate=38400, tx=Pin(4), rx=Pin(5), timeout=1)
-#print("Start")
-#print("Started with addr: " + str(i2c.scan()[0]))
+def run():
+    #i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=400000, timeout=2000)
+    uart = UART(1, baudrate=38400, tx=Pin(4), rx=Pin(5), timeout=1)
+    #print("Start")
+    #print("Started with addr: " + str(i2c.scan()[0]))
 
-File = open("data01.txt", "a") # Open text file
-File.write("START\n")
-File.write("latitude, longitude, time, satellites, altitude, date, angle, speed, PDOP, HDOP, VDOP, geoidSep\n")
-try:
-    while True:
-        time.sleep(0.9)
-        # Get the data, verify it, then parse it and write to a file
-        writeData(parseData(verifyData(obtainUARTData(uart))), File)
-        #writeData(parseData(verifyData(obtainI2CData(uart))), File)
+    File = open("data01.txt", "a") # Open text file
+    File.write("Latitude, Longitude, Time, Satellites, Altitude, Date, Angle, Speed, PDOP, HDOP, VDOP, GeoidSep\n")
+    print("Data:Latitude, Longitude, Time, Satellites, Altitude, Date, Angle, Speed, PDOP, HDOP, VDOP, GeoidSep")
+    try:
+        while True:
+            time.sleep(0.9)
+            # Get the data, verify it, then parse it and write to a file
+            writeData(parseData(verifyData(obtainUARTData(uart))), File)
+            #writeData(parseData(verifyData(obtainI2CData(uart))), File)
+            File.flush()
+    except KeyboardInterrupt:
         File.flush()
-except KeyboardInterrupt:
-    File.write("END\n")
-    File.flush()
-    print("Ended program")
+        print("Ended program")
+
+run()
